@@ -1,4 +1,7 @@
 # Scientific Paper Latex Template
+[![Build](https://github.com/iwishiwasaneagle/LatexPaperTemplate/actions/workflows/build.yml/badge.svg)](https://github.com/iwishiwasaneagle/LatexPaperTemplate/actions/workflows/build.yml)
+[![Publish](https://github.com/iwishiwasaneagle/LatexPaperTemplate/actions/workflows/publish.yml/badge.svg)](https://github.com/iwishiwasaneagle/LatexPaperTemplate/actions/workflows/publish.yml)
+
 
 A nice GitHub template for my reports and papers.
 
