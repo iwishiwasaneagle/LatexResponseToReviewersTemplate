@@ -1,0 +1,44 @@
+name: Create tag
+
+on:
+  workflow_dispatch:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '0 0 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Should it run?
+        id: skip
+        run: | 
+          PREVTAGCOMMIT="$(git tag --sort=creatordate | tail -n1 | awk -F'-' '{print $4}')"
+          CURRENTCOMMIT="$(git rev-parse --short HEAD)"
+          if [ "$PREVTAGCOMMIT" == "$CURRENTCOMMIT" ]; then
+            echo "Tags are the same ($PREVTAGCOMMIT != $CURRENTCOMMIT), skipping future steps"
+            echo "::set-output name=skip::true"
+          else
+            echo "Tags are not the same ($PREVTAGCOMMIT != $CURRENTCOMMIT). Continuing."
+            echo "::set-output name=skip::false"
+          fi
+ 
+      - name: Set tag
+        id: create-tag-name
+        if: steps.skip.outputs.skip == 'false'
+        run: |
+          v=${GITHUB_REF##*/}
+          echo "Version: $v"
+          echo "::set-output name=tag::$(date '+%F')-$(git rev-parse --short HEAD)"
+          
+      - name: Tag commit
+        if: steps.skip.outputs.skip == 'false'
+        uses: tvdias/github-tagger@v0.0.1
+        with:
+          repo-token: "${{ secrets.PAT }}"
+          tag: ${{ steps.create-tag-name.outputs.tag }}

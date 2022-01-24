@@ -1,0 +1,100 @@
+{
+    "latex-workshop.latex.clean.command": "latexcmd",
+    "latex-workshop.latex.clean.args": ["latexmk","-C"],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "latexmk 🔃",
+            "tools": [
+                "latexmk",
+                "latexmk",
+                "bibtex",
+                "makeindex",
+                "latexmk"
+            ]
+        },
+        {
+            "name": "latexmk 1️⃣",
+            "tools": [
+                "latexmk"
+            ]
+        },
+        {
+            "name": "bibtex 1️⃣",
+            "tools": [
+                "bibtex"
+            ]
+        },
+        {
+            "name": "makeindex 1️⃣",
+            "tools": [
+                "makeindex"
+            ]
+        }
+    ],
+    "latex-workshop.latex.tools": [
+        {
+            "name": "latexmk",
+            "command": "latexcmd",
+            "args": [
+                "latexmk",
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-pdf",
+                "%DOC_EXT%"
+            ]
+        },
+        {
+            "name": "bibtex",
+            "command": "latexcmd",
+            "args": [
+                "bibtex",
+                "%DOC%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "makeindex",
+            "command": "latexcmd",
+            "args": [
+                "makeindex",
+                "%DOC%.nlo",
+                "-s",
+                "nomencl.ist", 
+                "-o", 
+                "%DOC%.nls"
+            ],
+            "env": {}
+        },
+    ],
+    "latex-workshop.docker.enabled": true,
+    "latex-workshop.docker.image.latex": "blang/latex:ubuntu",
+    "latex-workshop.latex.watch.files.ignore": [
+        // default entries:
+        "**/*.aux",
+        "**/*.bbl",
+        "**/*.bcf",
+        "**/*.blg",
+        "**/*.idx",
+        "**/*.ind",
+        "**/*.lof",
+        "**/*.lot",
+        "**/*.out",
+        "**/*.toc",
+        "**/*.acn",
+        "**/*.acr",
+        "**/*.alg",
+        "**/*.glg",
+        "**/*.glo",
+        "**/*.gls",
+        "**/*.ist",
+        "**/*.fls",
+        "**/*.log",
+        "**/*.nav",
+        "**/*.snm",
+        "**/*.fdb_latexmk",
+        "**/*.synctex.gz",
+        "**/*.run.xml",
+        "**/*.nls"
+],
+}

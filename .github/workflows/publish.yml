@@ -1,0 +1,102 @@
+name: Publish
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "*"
+
+jobs:
+
+  setup-envs:
+    name: Generate data for release
+    runs-on: ubuntu-20.04
+    if: 
+    outputs:
+      release_body: ${{ steps.release.outputs.release_body }}
+      tag-name: ${{ steps.create-tag-name.outputs.tag }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          
+      - name: Set tag
+        id: create-tag-name
+        run: |
+          v=${GITHUB_REF##*/}
+          echo "Version: $v"
+          echo "::set-output name=tag::$v"
+    
+      - name: Generate latest changelog
+        uses: orhun/git-cliff-action@v1
+        id: git-cliff-latest
+        with:
+          args: -vv --latest --strip header
+        env:
+          OUTPUT: CHANGELOG.md
+
+      - name: Set the release body
+        id: release
+        continue-on-error: true
+        shell: bash
+        run: |
+          r=$(cat ${{ steps.git-cliff-latest.outputs.changelog }})
+          r="$(printf "$r" | tail -n +3)"
+          r="${r//'%'/'%25'}"
+          r="${r//$'\n'/'%0A'}"
+          r="${r//$'\r'/'%0D'}"
+          echo "::set-output name=release_body::$r"
+          
+  build:
+    name: Build document
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+        name: Enable docker cache
+        
+      - uses: xu-cheng/latex-action@v2
+        name: "Compile document 1/2"
+        with:
+          root_file: main.tex
+          args: -synctex=1 -interaction=nonstopmode -file-line-error -pdf
+        
+      - uses: xu-cheng/latex-action@v2
+        name: "Compile document 2/2"
+        with:
+          root_file: main.tex
+          args: -synctex=1 -interaction=nonstopmode -file-line-error -pdf
+          pre_compile: "bibtex main; makeindex main.nlo -s nomencl.ist -o main.nls"
+          post_compile: "latexmk -c"
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: main-pdf-release
+          path: ./main.pdf
+
+  publish-github:
+    name: Publish on GitHub
+    needs: [setup-envs,build]
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Download artifacts
+        id: download
+        uses: actions/download-artifact@v2
+        with:
+          name: main-pdf-release
+          path: main-pdf-release
+
+      - name: Upload the release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref }}
+          file: ${{steps.download.outputs.download-path}}/main.pdf
+          asset_name: $tag.pdf
+          release_name: "${{needs.setup-envs.outputs.tag-name}}"
+          body: "${{ needs.setup-envs.outputs.release_body }}"

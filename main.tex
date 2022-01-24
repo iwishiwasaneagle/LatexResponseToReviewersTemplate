@@ -1,0 +1,59 @@
+\documentclass[journal]{new-aiaa}
+\usepackage[utf8]{inputenc}
+\usepackage{textcomp}
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[version=4]{mhchem}
+\usepackage{siunitx}
+\usepackage{longtable,tabularx}
+\usepackage{booktabs}
+\usepackage{lipsum} % Remove this
+\setlength\LTleft{0pt} 
+
+% --- Title declaration --- %
+\title{A Template For Writing Beautiful Papers}
+
+\author{Jan-Hendrik Ewers \footnote{Researcher, Aerospace Sciences Research Division, School of Engineering.}}
+\affil{University of Glasgow, Glasgow, Scotland, G12 8QQ}
+
+% --- Nomenclature --- %
+\usepackage{nomencl}
+\makenomenclature
+
+% --- Define nomenclature categories --- %
+\usepackage{etoolbox}
+\renewcommand\nomgroup[1]{%
+  \item[\bfseries
+  \ifstrequal{#1}{A}{Acronyms}{%
+  \ifstrequal{#1}{S}{Symbols}{}}%
+]}
+
+% --- Declare useful SI units --- %
+\DeclareSIUnit\km{\kilo\metre}
+\DeclareSIUnit\kmsq{\km\squared}
+
+% --- !!! UPDATE THIS !!! --- %
+\graphicspath{{conclusion/figures}{intro/figures}{method/figures}{results/figures}}
+
+\begin{document}
+
+\maketitle
+
+\input{sections/abstract/abtract.tex}
+
+\input{sections/intro/introduction.tex}
+
+\tableofcontents
+
+\input{nomenclature.tex}
+
+\input{sections/method/method.tex}
+
+\input{sections/results/results.tex}
+
+\input{sections/conclusion/conclusion.tex}
+
+\bibliography{references}
+
+\end{document}
