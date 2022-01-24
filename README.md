@@ -16,7 +16,15 @@ A nice GitHub template for my reports and papers.
 
 ## Installation
 
+This template was designed to work with the [blang/latex-docker](https://github.com/blang/latex-docker) image, and [latex-workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop) VSCode plugin. This is optional, do what you want!
 
+The only installation required is to add the `latexcmd.sh` script to your path. I chose the following method:
+
+```bash
+sudo ln -sf $(pwd)/latexcmd.sh /use/local/bin/latexcmd
+```
+
+This allows us to use the power of latex without any other setup! Incredible.
 
 ## FAQ
 
