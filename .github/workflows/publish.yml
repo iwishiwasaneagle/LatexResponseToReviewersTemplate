@@ -57,13 +57,13 @@ jobs:
       - uses: satackey/action-docker-layer-caching@v0.0.11
         name: Enable docker cache
         
-      - uses: xu-cheng/latex-action@v2
+      - uses: iwishiwasaneagle/latex-action@main
         name: "Compile document 1/2"
         with:
           root_file: main.tex
           args: -synctex=1 -interaction=nonstopmode -file-line-error -pdf
         
-      - uses: xu-cheng/latex-action@v2
+      - uses: iwishiwasaneagle/latex-action@main
         name: "Compile document 2/2"
         with:
           root_file: main.tex
