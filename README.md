@@ -26,6 +26,15 @@ sudo ln -sf $(pwd)/latexcmd.sh /use/local/bin/latexcmd
 
 This allows us to use the power of latex without any other setup! Incredible.
 
+## Automated Workflows
+
+You will need to set a `personal access token` with the `repo` scope to enable scheduled releases. This then needs to be given the name `PAT` to enable the workflow to access it.
+
+- https://github.com/settings/tokens
+- https://docs.github.com/en/actions/security-guides/encrypted-secrets
+- [Relevant CI configuration file](https://github.com/iwishiwasaneagle/LatexPaperTemplate/blob/e2941bd404f4932ce1199f5704b849eaec57d688/.github/workflows/create-tag.yml#L44)
+
+
 ## FAQ
 
 > Why do you use the AIAA template?
