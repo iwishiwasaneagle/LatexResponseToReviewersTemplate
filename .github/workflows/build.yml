@@ -12,20 +12,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       
       - uses: satackey/action-docker-layer-caching@v0.0.11
         name: Enable docker cache
         
-      - uses: iwishiwasaneagle/latex-action@master
+      - uses: xu-cheng/latex-action@v2 
         name: "Compile document 1/2"
         with:
           root_file: main.tex
           args: -synctex=1 -interaction=nonstopmode -file-line-error -pdf
         
-      - uses: iwishiwasaneagle/latex-action@master
+      - uses: xu-cheng/latex-action@v2 
         name: "Compile document 2/2"
         with:
           root_file: main.tex
           args: -synctex=1 -interaction=nonstopmode -file-line-error -pdf
           pre_compile: "bibtex main; makeindex main.nlo -s nomencl.ist -o main.nls"
           post_compile: "latexmk -c"
+
+      - name: Rename main.pdf
+        run: |
+          r=$(git describe --tags)
+          mv main.pdf ${r}.pdf
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-pdf
+          path: ./*.pdf
