@@ -38,7 +38,7 @@ jobs:
           
       - name: Tag commit
         if: steps.skip.outputs.skip == 'false'
-        uses: tvdias/github-tagger@v0.0.1
+        uses: tvdias/github-tagger@v0.0.2
         with:
           repo-token: "${{ secrets.PAT }}"
           tag: ${{ steps.create-tag-name.outputs.tag }}
