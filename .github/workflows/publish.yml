@@ -71,7 +71,7 @@ jobs:
           pre_compile: "bibtex main; makeindex main.nlo -s nomencl.ist -o main.nls"
           post_compile: "latexmk -c"
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: main-pdf-release
           path: ./main.pdf
