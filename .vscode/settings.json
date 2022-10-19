@@ -1,6 +1,6 @@
 {
-    "latex-workshop.latex.clean.command": "latexcmd",
-    "latex-workshop.latex.clean.args": ["latexmk","-C"],
+    "latex-workshop.latex.clean.command": "latexmk",
+    "latex-workshop.latex.clean.args": ["-C"],
     "latex-workshop.latex.recipes": [
         {
             "name": "latexmk 🔃",
@@ -34,41 +34,37 @@
     "latex-workshop.latex.tools": [
         {
             "name": "latexmk",
-            "command": "latexcmd",
+            "command": "latexmk",
             "args": [
-                "latexmk",
                 "-synctex=1",
                 "-interaction=nonstopmode",
                 "-file-line-error",
+                // "-f",
                 "-pdf",
-                "%DOC_EXT%"
+                "%DOCFILE_EXT%"
             ]
         },
         {
             "name": "bibtex",
-            "command": "latexcmd",
+            "command": "bibtex",
             "args": [
-                "bibtex",
-                "%DOC%"
+                "%DOCFILE%"
             ],
             "env": {}
         },
         {
             "name": "makeindex",
-            "command": "latexcmd",
+            "command": "makeindex",
             "args": [
-                "makeindex",
-                "%DOC%.nlo",
+                "%DOCFILE%.nlo",
                 "-s",
                 "nomencl.ist", 
                 "-o", 
-                "%DOC%.nls"
+                "%DOCFILE%.nls"
             ],
             "env": {}
         },
     ],
-    "latex-workshop.docker.enabled": true,
-    "latex-workshop.docker.image.latex": "blang/latex:ubuntu",
     "latex-workshop.latex.watch.files.ignore": [
         // default entries:
         "**/*.aux",
