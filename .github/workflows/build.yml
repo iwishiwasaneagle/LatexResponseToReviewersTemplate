@@ -34,7 +34,7 @@ jobs:
 
       - name: Rename main.pdf
         run: |
-          r=$(git describe --tags)
+          r=$(git describe --tags --always)
           mv main.pdf ${r}.pdf
 
       - name: Upload artifact
