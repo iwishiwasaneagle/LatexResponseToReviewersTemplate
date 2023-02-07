@@ -1,5 +1,8 @@
 {
-	"name": "TeX Live base",
-	"image": "blang/latex:ubuntu",
+	"name": "TeX Live base",	
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	"containerUser": "user",
 	"extensions": ["james-yu.latex-workshop", "streetsidesoftware.code-spell-checker", "christian-kohler.path-intellisense", "cssho.vscode-svgviewer", "vscodevim.vim", "nhoizey.gremlins"]
 }
