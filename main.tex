@@ -47,6 +47,8 @@
 \newcommand{\temphighlight}[2]{{\color{red}\textbf{\textbackslash\textbackslash{}#1}~#2}}
 \newcommand{\todo}[1][]{\temphighlight{TODO}{#1}}
 \newcommand{\note}[1][]{\temphighlight{NOTE}{#1}}
+% Automatically print nomenclature, and add it to the list
+\newcommand{\nomdef}[2]{#1 (#2)\nomenclature{#2}{#1}}
 
 % --- !!! UPDATE THIS !!! --- %
 \graphicspath{{sections/conclusion/figures/}{sections/intro/figures/}{sections/method/figures}{sections/results/figures/}}
