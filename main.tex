@@ -42,6 +42,11 @@
 \newcommand{\refeqn}[1]{Eqn.~\ref{#1}}
 \newcommand{\reftbl}[1]{Tbl.~\ref{#1}}
 \newcommand{\refsect}[1]{Sect.~\ref{#1}}
+% Some useful temporary text commands
+\usepackage{xcolor}
+\newcommand{\temphighlight}[2]{{\color{red}\textbf{\textbackslash\textbackslash{}#1}~#2}}
+\newcommand{\todo}[1][]{\temphighlight{TODO}{#1}}
+\newcommand{\note}[1][]{\temphighlight{NOTE}{#1}}
 
 % --- !!! UPDATE THIS !!! --- %
 \graphicspath{{sections/conclusion/figures/}{sections/intro/figures/}{sections/method/figures}{sections/results/figures/}}
