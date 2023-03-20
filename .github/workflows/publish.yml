@@ -29,7 +29,7 @@ jobs:
           echo "::set-output name=tag::$v"
     
       - name: Generate latest changelog
-        uses: orhun/git-cliff-action@v1
+        uses: orhun/git-cliff-action@v2
         id: git-cliff-latest
         with:
           args: -vv --latest --strip header
