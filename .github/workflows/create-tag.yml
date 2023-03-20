@@ -40,5 +40,5 @@ jobs:
         if: steps.skip.outputs.skip == 'false'
         uses: tvdias/github-tagger@v0.0.2
         with:
-          repo-token: "${{ secrets.PAT }}"
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
           tag: ${{ steps.create-tag-name.outputs.tag }}
