@@ -1,4 +1,9 @@
 {
+    "[latex]": {
+        "editor.formatOnPaste": true,
+        "editor.wordWrap": "on",
+        "editor.wordWrapColumn": 80
+    },
     "latex-workshop.latex.clean.command": "latexmk",
     "latex-workshop.latex.clean.args": ["-C"],
     "latex-workshop.latex.recipes": [
