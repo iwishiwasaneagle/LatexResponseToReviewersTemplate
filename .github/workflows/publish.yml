@@ -17,7 +17,7 @@ jobs:
       tag-name: ${{ steps.create-tag-name.outputs.tag }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           
@@ -52,7 +52,7 @@ jobs:
     name: Build document
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       
       - uses: satackey/action-docker-layer-caching@v0.0.11
         name: Enable docker cache
@@ -83,7 +83,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Download artifacts
         id: download
         uses: actions/download-artifact@v3
