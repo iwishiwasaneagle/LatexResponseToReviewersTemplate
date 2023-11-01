@@ -4,12 +4,16 @@
 		"dockerfile": "Dockerfile"
 	},
 	"containerUser": "user",
-	"extensions": [
-		"james-yu.latex-workshop",
-		"streetsidesoftware.code-spell-checker",
-		"christian-kohler.path-intellisense",
-		"cssho.vscode-svgviewer",
-		"vscodevim.vim",
-		"nhoizey.gremlins"
-	]
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"james-yu.latex-workshop",
+				"streetsidesoftware.code-spell-checker",
+				"christian-kohler.path-intellisense",
+				"cssho.vscode-svgviewer",
+				"vscodevim.vim",
+				"nhoizey.gremlins"
+			]
+		}
+	}
 }
