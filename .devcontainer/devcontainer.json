@@ -1,5 +1,5 @@
 {
-	"name": "TeX Live base",	
+	"name": "TeX Live base",
 	"build": {
 		"dockerfile": "Dockerfile"
 	},
@@ -10,7 +10,6 @@
 		"christian-kohler.path-intellisense",
 		"cssho.vscode-svgviewer",
 		"vscodevim.vim",
-		"nhoizey.gremlins",
-		"stkb.rewrap"
+		"nhoizey.gremlins"
 	]
 }
