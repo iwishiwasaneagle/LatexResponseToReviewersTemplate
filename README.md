@@ -30,8 +30,12 @@ You will need to set a `personal access token` with the `repo` scope to enable s
 - [Relevant CI configuration file](https://github.com/iwishiwasaneagle/LatexPaperTemplate/blob/e2941bd404f4932ce1199f5704b849eaec57d688/.github/workflows/create-tag.yml#L44)
 
 
-## FAQ
+## ⚠️ Warning ⚠️
 
-> Why do you use the AIAA template?
->
-> I like it.
+As per https://github.com/James-Yu/LaTeX-Workshop/issues/4052, the default build mode on save is just `latexmk`. In order to trigger a full build you must run 
+  
+  - `ctrl+P`
+  - `LaTex Workshop: Build with recipe`
+  - Select `Latexmk "latexmk 🔃"`
+
+This is done to keep the update-on-save feature.  Once `bibtex` and `makeindex` have been run once, their output files are saved in the directory anyway and this shouldn't cause too many issues.

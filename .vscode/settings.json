@@ -1,7 +1,15 @@
 {
     "latex-workshop.latex.clean.command": "latexmk",
-    "latex-workshop.latex.clean.args": ["-C"],
+    "latex-workshop.latex.clean.args": [
+        "-C"
+    ],
     "latex-workshop.latex.recipes": [
+        {
+            "name": "latexmk 1️⃣",
+            "tools": [
+                "latexmk"
+            ]
+        },
         {
             "name": "latexmk 🔃",
             "tools": [
@@ -9,12 +17,6 @@
                 "latexmk",
                 "bibtex",
                 "makeindex",
-                "latexmk"
-            ]
-        },
-        {
-            "name": "latexmk 1️⃣",
-            "tools": [
                 "latexmk"
             ]
         },
@@ -58,15 +60,14 @@
             "args": [
                 "%DOCFILE%.nlo",
                 "-s",
-                "nomencl.ist", 
-                "-o", 
+                "nomencl.ist",
+                "-o",
                 "%DOCFILE%.nls"
             ],
             "env": {}
         },
     ],
     "latex-workshop.latex.watch.files.ignore": [
-        // default entries:
         "**/*.aux",
         "**/*.bbl",
         "**/*.bcf",
@@ -92,5 +93,6 @@
         "**/*.synctex.gz",
         "**/*.run.xml",
         "**/*.nls"
-],
+    ],
+    "latex-workshop.synctex.afterBuild.enabled": true,
 }
