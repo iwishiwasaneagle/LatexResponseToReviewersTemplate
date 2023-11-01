@@ -46,7 +46,6 @@
                 "-synctex=1",
                 "-interaction=nonstopmode",
                 "-file-line-error",
-                // "-f",
                 "-pdf",
                 "%DOCFILE_EXT%"
             ]
