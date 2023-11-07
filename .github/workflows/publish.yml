@@ -113,11 +113,14 @@ jobs:
     name: Publish on GitHub
     runs-on: ubuntu-latest
     needs: [create-tag, setup-envs, build]
-    if: needs.create-tag.outputs.skip == 'false' && !env.ACT
+    if: needs.create-tag.outputs.skip == 'false'
     steps:
       - name: Checkout
+        if: !env.ACT
         uses: actions/checkout@v4
+
       - name: Download artifacts
+        if: !env.ACT
         id: download
         uses: actions/download-artifact@v3
         with:
@@ -125,6 +128,7 @@ jobs:
           path: main-pdf-release
 
       - name: Upload the release
+        if: !env.ACT
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
