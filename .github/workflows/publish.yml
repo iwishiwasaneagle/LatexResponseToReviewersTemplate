@@ -39,13 +39,6 @@ jobs:
           echo "Version: $v"
           echo "tag=$(date '+%F')-$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
-      - name: Tag commit
-        if: steps.skip.outputs.skip == 'false' && !env.ACT
-        uses: tvdias/github-tagger@v0.0.2
-        with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          tag: ${{ steps.create-tag-name.outputs.tag }}
-
   setup-envs:
     name: Generate data for release
     runs-on: ubuntu-latest
@@ -132,7 +125,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ github.ref }}
+          tag: ${{ needs.create-tag.outputs.tag }}
           file: ${{steps.download.outputs.download-path}}/main.pdf
           asset_name: $tag.pdf
           release_name: "${{ needs.create-tag.outputs.tag }}"
