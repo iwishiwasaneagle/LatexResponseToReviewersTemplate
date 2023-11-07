@@ -1,4 +1,4 @@
-name: Create tag and publish
+name: Create release
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   create-tag:
-    name: Create tag if new commit
+    name: Check if new commit
     runs-on: ubuntu-latest
     outputs:
       skip: ${{ steps.skip.outputs.skip }}
@@ -31,7 +31,7 @@ jobs:
             echo "skip=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Set tag
+      - name: Set tag name
         id: create-tag-name
         if: steps.skip.outputs.skip == 'false'
         run: |
