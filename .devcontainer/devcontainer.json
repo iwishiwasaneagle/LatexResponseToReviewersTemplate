@@ -6,6 +6,9 @@
 	"containerUser": "user",
 	"customizations": {
 		"vscode": {
+			"settings": {
+				"terminal.integrated.defaultProfile.linux": "bash"
+			},
 			"extensions": [
 				"james-yu.latex-workshop",
 				"streetsidesoftware.code-spell-checker",
