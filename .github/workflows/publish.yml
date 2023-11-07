@@ -1,31 +1,63 @@
-name: Publish
+name: Create tag
 
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - "*"
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron: "0 0 * * *"
 
 jobs:
+  create-tag:
+    name: Create tag if new commit
+    runs-on: ubuntu-latest
+    outputs:
+      skip: ${{ steps.skip.outputs.skip }}
+      tag: ${{ steps.create-tag-name.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Should it run?
+        id: skip
+        run: |
+          PREVTAGCOMMIT="$(git tag --sort=creatordate | tail -n1 | awk -F'-' '{print $4}')"
+          CURRENTCOMMIT="$(git rev-parse --short HEAD)"
+          if [ "$PREVTAGCOMMIT" == "$CURRENTCOMMIT" ]; then
+            echo "Tags are the same ($PREVTAGCOMMIT != $CURRENTCOMMIT), skipping future steps"
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "Tags are not the same ($PREVTAGCOMMIT != $CURRENTCOMMIT). Continuing."
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Set tag
+        id: create-tag-name
+        if: steps.skip.outputs.skip == 'false'
+        run: |
+          v=${GITHUB_REF##*/}
+          echo "Version: $v"
+          echo "tag=$(date '+%F')-$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Tag commit
+        if: steps.skip.outputs.skip == 'false' && !env.ACT
+        uses: tvdias/github-tagger@v0.0.2
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          tag: ${{ steps.create-tag-name.outputs.tag }}
+
   setup-envs:
     name: Generate data for release
-    runs-on: ubuntu-20.04
-    if:
+    runs-on: ubuntu-latest
+    needs: create-tag
+    if: needs.create-tag.outputs.skip == 'false'
     outputs:
       release_body: ${{ steps.release.outputs.release_body }}
-      tag-name: ${{ steps.create-tag-name.outputs.tag }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Set tag
-        id: create-tag-name
-        run: |
-          v=${GITHUB_REF##*/}
-          echo "Version: $v"
-          echo "::set-output name=tag::$v"
 
       - name: Generate latest changelog
         uses: orhun/git-cliff-action@v2
@@ -44,12 +76,12 @@ jobs:
           r="$(printf "$r" | tail -n +3)"
           r="${r//'%'/'%25'}"
           r="${r//$'\n'/'%0A'}"
-          r="${r//$'\r'/'%0D'}"
-          echo "::set-output name=release_body::$r"
-
+          r="${r//$'\r'/ &&
   build:
     name: Build document
     runs-on: ubuntu-latest
+    needs: [create-tag, setup-envs]
+    if: needs.create-tag.outputs.skip == 'false'
     steps:
       - uses: actions/checkout@v4
 
@@ -79,9 +111,9 @@ jobs:
 
   publish-github:
     name: Publish on GitHub
-    needs: [setup-envs, build]
-    runs-on: ubuntu-20.04
-
+    runs-on: ubuntu-latest
+    needs: [create-tag, setup-envs, build]
+    if: needs.create-tag.outputs.skip == 'false' && !env.ACT
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -99,5 +131,5 @@ jobs:
           tag: ${{ github.ref }}
           file: ${{steps.download.outputs.download-path}}/main.pdf
           asset_name: $tag.pdf
-          release_name: "${{needs.setup-envs.outputs.tag-name}}"
+          release_name: "${{ needs.create-tag.outputs.tag }}"
           body: "${{ needs.setup-envs.outputs.release_body }}"
