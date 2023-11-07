@@ -7,11 +7,10 @@ on:
       - "*"
 
 jobs:
-
   setup-envs:
     name: Generate data for release
     runs-on: ubuntu-20.04
-    if: 
+    if:
     outputs:
       release_body: ${{ steps.release.outputs.release_body }}
       tag-name: ${{ steps.create-tag-name.outputs.tag }}
@@ -20,14 +19,14 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          
+
       - name: Set tag
         id: create-tag-name
         run: |
           v=${GITHUB_REF##*/}
           echo "Version: $v"
           echo "::set-output name=tag::$v"
-    
+
       - name: Generate latest changelog
         uses: orhun/git-cliff-action@v2
         id: git-cliff-latest
@@ -47,29 +46,31 @@ jobs:
           r="${r//$'\n'/'%0A'}"
           r="${r//$'\r'/'%0D'}"
           echo "::set-output name=release_body::$r"
-          
+
   build:
     name: Build document
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - uses: satackey/action-docker-layer-caching@v0.0.11
+        continue-on-error: true
         name: Enable docker cache
-        
-      - uses: iwishiwasaneagle/latex-action@master
+
+      - uses: xu-cheng/latex-action@v3
         name: "Compile document 1/2"
         with:
           root_file: main.tex
           args: -synctex=1 -interaction=nonstopmode -file-line-error -pdf
-        
-      - uses: iwishiwasaneagle/latex-action@master
+
+      - uses: xu-cheng/latex-action@v3
         name: "Compile document 2/2"
         with:
           root_file: main.tex
           args: -synctex=1 -interaction=nonstopmode -file-line-error -pdf
           pre_compile: "bibtex main; makeindex main.nlo -s nomencl.ist -o main.nls"
           post_compile: "latexmk -c"
+
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
@@ -78,7 +79,7 @@ jobs:
 
   publish-github:
     name: Publish on GitHub
-    needs: [setup-envs,build]
+    needs: [setup-envs, build]
     runs-on: ubuntu-20.04
 
     steps:
