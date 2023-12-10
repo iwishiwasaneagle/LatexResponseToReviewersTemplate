@@ -21,7 +21,12 @@ jobs:
       - name: Should it run?
         id: skip
         run: |
-          PREVTAGCOMMIT="$(git tag --sort=creatordate | tail -n1 | awk -F'-' '{print $4}')"
+          # Resolve the current tag into it's commit to be able to directly compare
+          # with HEAD. This means that a manual tag such as "version 1.0" will not
+          # cause the CI job to create a new tag pointing to the same commit.
+          PREVTAGCOMMIT_UNSANITIZED="$(git tag --sort=creatordate | tail -n1)"
+          PREVTAGCOMMIT_SANITIZED="$(git rev-list -n 1 $PREVTAGCOMMIT_UNSANITIZED)"
+          PREVTAGCOMMIT="$(git rev-parse --short $PREVTAGCOMMIT_SANITIZED)"
           CURRENTCOMMIT="$(git rev-parse --short HEAD)"
           if [ "$PREVTAGCOMMIT" == "$CURRENTCOMMIT" ]; then
             echo "Tags are the same ($PREVTAGCOMMIT != $CURRENTCOMMIT), skipping future steps"
