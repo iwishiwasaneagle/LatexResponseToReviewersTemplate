@@ -4,6 +4,7 @@
         "editor.wordWrap": "on",
         "editor.wordWrapColumn": 80,
     },
+    "latex-workshop.latex.outDir": "build",
     "latex-workshop.latex.clean.command": "latexmk",
     "latex-workshop.latex.clean.args": [
         "-C"
@@ -47,6 +48,8 @@
                 "-interaction=nonstopmode",
                 "-file-line-error",
                 "-pdf",
+                "-aux-directory=%OUTDIR%",
+                "-output-directory=%OUTDIR%",
                 "%DOCFILE_EXT%"
             ]
         },
@@ -54,7 +57,7 @@
             "name": "bibtex",
             "command": "bibtex",
             "args": [
-                "%DOCFILE%"
+                "%OUTDIR%/%DOCFILE%"
             ],
             "env": {}
         },
@@ -62,11 +65,11 @@
             "name": "makeindex",
             "command": "makeindex",
             "args": [
-                "%DOCFILE%.nlo",
+                "%OUTDIR%/%DOCFILE%.nlo",
                 "-s",
-                "nomencl.ist",
+                "%OUTDIR%/nomencl.ist",
                 "-o",
-                "%DOCFILE%.nls"
+                "%OUTDIR%/%DOCFILE%.nls"
             ],
             "env": {}
         },
