@@ -67,7 +67,7 @@
             "args": [
                 "%OUTDIR%/%DOCFILE%.nlo",
                 "-s",
-                "%OUTDIR%/nomencl.ist",
+                "nomencl.ist",
                 "-o",
                 "%OUTDIR%/%DOCFILE%.nls"
             ],
