@@ -39,7 +39,7 @@ jobs:
           mv main.pdf ${r}.pdf
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-pdf
           path: ./*.pdf
