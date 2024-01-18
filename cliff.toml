@@ -1,26 +1,37 @@
-
-# configuration file for git-cliff (0.1.0)
-
 [changelog]
-# changelog header
 header = """
 # Changelog
 
 All notable changes to this project will be documented in this file.\n
 """
-# template for the changelog body
-# https://tera.netlify.app/docs/#introduction
+
 body = """
 {% if version %}\
-    ## [{{ version | replace(from="v", to="") }}] - {{ timestamp | date(format="%Y-%m-%d") }}
+    ## [{{ version | trim_start_matches(pat="v") }}] - {{ timestamp | date(format="%Y-%m-%d") }}
 {% else %}\
     ## [unreleased]
 {% endif %}\
 {% for group, commits in commits | group_by(attribute="group") %}
     ### {{ group | upper_first }}
-    {% for commit in commits %}
-        - {{ commit.message | upper_first }}\
-    {% endfor %}
+    {% for commit in commits
+    | filter(attribute="scope")
+    | sort(attribute="scope") %}
+        - *({{commit.scope}})* {{ commit.message | upper_first }}
+        {%- if commit.breaking %}
+        {% raw %}  {% endraw %}- **BREAKING**: {{commit.breaking_description}}
+        {%- endif -%}
+    {%- endfor -%}
+    {% raw %}\n{% endraw %}\
+    {%- for commit in commits %}
+        {%- if commit.scope -%}
+        {% else -%}
+            - {{ commit.message | upper_first }}
+            {% if commit.breaking -%}
+            {% raw %}  {% endraw %}- **BREAKING**: {{commit.breaking_description}}
+            {% endif -%}
+        {% endif -%}
+    {% endfor -%}
+    {% raw %}\n{% endraw %}\
 {% endfor %}\n
 """
 # remove the leading and trailing whitespaces from the template
@@ -33,7 +44,6 @@ footer = """
 # allow only conventional commits
 # https://www.conventionalcommits.org
 conventional_commits = true
-# regex for parsing and grouping commits
 commit_parsers = [
     { message = "^feat*", group = "Features"},
     { message = "^fix*", group = "Bug Fixes"},
@@ -46,9 +56,6 @@ commit_parsers = [
     { message = "^chore*", group = "Miscellaneous Tasks"},
     { body = ".*security", group = "Security"},
 ]
-# filter out the commits that are not matched by commit parsers
 filter_commits = false
-# glob pattern for matching git tags
-tag_pattern = "^[0-9]{4}-[0-9]{2}-[0-9]{2}-\w{7}$"
-# regex for skipping tags
+tag_pattern = "^[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-zA-Z0-9]{7}$"
 skip_tags = "v0.1.0-beta.1"
