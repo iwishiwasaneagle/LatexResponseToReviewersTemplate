@@ -45,6 +45,7 @@ footer = """
 # https://www.conventionalcommits.org
 conventional_commits = true
 commit_parsers = [
+    { message = "^comment*, group = "Comments"},
     { message = "^feat*", group = "Features"},
     { message = "^fix*", group = "Bug Fixes"},
     { message = "^doc*", group = "Documentation"},
