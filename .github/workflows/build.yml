@@ -30,7 +30,7 @@ jobs:
         with:
           root_file: main.tex
           args: -synctex=1 -interaction=nonstopmode -file-line-error -pdf
-          pre_compile: "bibtex main; makeindex main.nlo -s nomencl.ist -o main.nls"
+          pre_compile: "bibtex main"
           post_compile: "latexmk -c"
 
       - name: Rename main.pdf
