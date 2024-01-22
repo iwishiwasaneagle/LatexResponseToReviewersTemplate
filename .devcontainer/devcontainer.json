@@ -1,0 +1,22 @@
+{
+	"name": "TeX Live base",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	"containerUser": "user",
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"terminal.integrated.defaultProfile.linux": "bash"
+			},
+			"extensions": [
+				"james-yu.latex-workshop",
+				"streetsidesoftware.code-spell-checker",
+				"christian-kohler.path-intellisense",
+				"cssho.vscode-svgviewer",
+				"vscodevim.vim",
+				"nhoizey.gremlins"
+			]
+		}
+	}
+}

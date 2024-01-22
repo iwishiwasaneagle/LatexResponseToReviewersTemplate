@@ -1,0 +1,105 @@
+{
+    "[latex]": {
+        "editor.formatOnPaste": true,
+        "editor.wordWrap": "on",
+        "editor.wordWrapColumn": 80,
+    },
+    "latex-workshop.latex.outDir": "build",
+    "latex-workshop.latex.clean.command": "latexmk",
+    "latex-workshop.latex.clean.args": [
+        "-C"
+    ],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "latexmk 1️⃣",
+            "tools": [
+                "latexmk"
+            ]
+        },
+        {
+            "name": "latexmk 🔃",
+            "tools": [
+                "latexmk",
+                "latexmk",
+                "bibtex",
+                "makeindex",
+                "latexmk"
+            ]
+        },
+        {
+            "name": "bibtex 1️⃣",
+            "tools": [
+                "bibtex"
+            ]
+        },
+        {
+            "name": "makeindex 1️⃣",
+            "tools": [
+                "makeindex"
+            ]
+        }
+    ],
+    "latex-workshop.latex.tools": [
+        {
+            "name": "latexmk",
+            "command": "latexmk",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-pdf",
+                "-aux-directory=%OUTDIR%",
+                "-output-directory=%OUTDIR%",
+                "%DOCFILE_EXT%"
+            ]
+        },
+        {
+            "name": "bibtex",
+            "command": "bibtex",
+            "args": [
+                "%OUTDIR%/%DOCFILE%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "makeindex",
+            "command": "makeindex",
+            "args": [
+                "%OUTDIR%/%DOCFILE%.nlo",
+                "-s",
+                "nomencl.ist",
+                "-o",
+                "%OUTDIR%/%DOCFILE%.nls"
+            ],
+            "env": {}
+        },
+    ],
+    "latex-workshop.latex.watch.files.ignore": [
+        "**/*.aux",
+        "**/*.bbl",
+        "**/*.bcf",
+        "**/*.blg",
+        "**/*.idx",
+        "**/*.ind",
+        "**/*.lof",
+        "**/*.lot",
+        "**/*.out",
+        "**/*.toc",
+        "**/*.acn",
+        "**/*.acr",
+        "**/*.alg",
+        "**/*.glg",
+        "**/*.glo",
+        "**/*.gls",
+        "**/*.ist",
+        "**/*.fls",
+        "**/*.log",
+        "**/*.nav",
+        "**/*.snm",
+        "**/*.fdb_latexmk",
+        "**/*.synctex.gz",
+        "**/*.run.xml",
+        "**/*.nls"
+    ],
+    "latex-workshop.synctex.afterBuild.enabled": true,
+}

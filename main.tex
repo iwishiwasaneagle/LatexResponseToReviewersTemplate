@@ -1,0 +1,76 @@
+\documentclass[journal]{new-aiaa}
+\usepackage[utf8]{inputenc}
+\usepackage{textcomp}
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[version=4]{mhchem}
+\usepackage{siunitx}
+\usepackage{longtable,tabularx}
+\usepackage{booktabs}
+\usepackage{lipsum} % Remove this
+\setlength\LTleft{0pt} 
+
+% --- Title declaration --- %
+\title{A Template For Writing Beautiful Papers}
+
+\author{Jan-Hendrik Ewers \footnote{Researcher, Aerospace Sciences Research Division, School of Engineering.}}
+\affil{University of Glasgow, Glasgow, Scotland, G12 8QQ}
+
+% --- Maths --- %
+\renewcommand{\vec}[1]{\mathbf{#1}}
+
+% --- Nomenclature --- %
+\usepackage{nomencl}
+\makenomenclature
+
+% --- Define nomenclature categories --- %
+\usepackage{etoolbox}
+\renewcommand\nomgroup[1]{%
+  \item[\bfseries
+  \ifstrequal{#1}{A}{Acronyms}{%
+  \ifstrequal{#1}{S}{Symbols}{}}%
+]}
+
+% --- Declare useful SI units --- %
+\DeclareSIUnit\km{\kilo\metre}
+\DeclareSIUnit\kmsq{\km\squared}
+
+% --- Custom commands --- %
+% Manually define refs for various items
+\newcommand{\reffig}[1]{Fig.~\ref{#1}}
+\newcommand{\refeqn}[1]{Eqn.~\ref{#1}}
+\newcommand{\reftbl}[1]{Tbl.~\ref{#1}}
+\newcommand{\refsect}[1]{Sect.~\ref{#1}}
+% Some useful temporary text commands
+\usepackage{xcolor}
+\newcommand{\temphighlight}[2]{{\color{red}\textbf{\textbackslash\textbackslash{}#1}~#2}}
+\newcommand{\todo}[1][]{\temphighlight{TODO}{#1}}
+\newcommand{\note}[1][]{\temphighlight{NOTE}{#1}}
+% Automatically print nomenclature, and add it to the list
+\newcommand{\nomdef}[2]{#1 (#2)\nomenclature{#2}{#1}}
+
+% --- !!! UPDATE THIS !!! --- %
+\graphicspath{{sections/conclusion/figures/}{sections/intro/figures/}{sections/method/figures}{sections/results/figures/}}
+
+\begin{document}
+
+\maketitle
+
+\input{sections/abstract/abtract.tex}
+
+\input{sections/intro/introduction.tex}
+
+\tableofcontents
+
+\input{nomenclature.tex}
+
+\input{sections/method/method.tex}
+
+\input{sections/results/results.tex}
+
+\input{sections/conclusion/conclusion.tex}
+
+\bibliography{references}
+
+\end{document}
