@@ -1,4 +1,4 @@
-\ProvidesClass{response2reviewers}[2024/01/22, v1.0]
+\ProvidesClass{response_to_reviewers}[2024/01/22, v1.0]
 \LoadClass[11pt]{article}
 
 \RequirePackage[utf8]{inputenc}
