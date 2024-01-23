@@ -90,22 +90,22 @@ jobs:
       - uses: xu-cheng/latex-action@v3
         name: "Compile document 1/2"
         with:
-          root_file: main.tex
+          root_file: release.tex
           args: -synctex=1 -interaction=nonstopmode -file-line-error -pdf
 
       - uses: xu-cheng/latex-action@v3
         name: "Compile document 2/2"
         with:
-          root_file: main.tex
+          root_file: progress.tex
           args: -synctex=1 -interaction=nonstopmode -file-line-error -pdf
-          pre_compile: "bibtex main; makeindex main.nlo -s nomencl.ist -o main.nls"
+          pre_compile: "bibtex release"
           post_compile: "latexmk -c"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: main-pdf-release
-          path: ./main.pdf
+          name: release-pdf-release
+          path: ./release.pdf
 
   publish-github:
     name: Publish on GitHub
@@ -122,8 +122,8 @@ jobs:
         id: download
         uses: actions/download-artifact@v4
         with:
-          name: main-pdf-release
-          path: main-pdf-release
+          name: release-pdf-release
+          path: release-pdf-release
 
       - name: Upload the release
         if: ${{ !env.ACT }}
@@ -131,7 +131,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ needs.create-tag.outputs.tag }}
-          file: ${{steps.download.outputs.download-path}}/main.pdf
+          file: ${{steps.download.outputs.download-path}}/release.pdf
           asset_name: $tag.pdf
           release_name: "${{ needs.create-tag.outputs.tag }}"
           body: "${{ needs.setup-envs.outputs.release_body }}"
