@@ -58,7 +58,7 @@ jobs:
           fetch-depth: 0
 
       - name: Generate latest changelog
-        uses: orhun/git-cliff-action@v2
+        uses: orhun/git-cliff-action@v3
         id: git-cliff-latest
         with:
           args: -vv --latest --strip header
@@ -74,7 +74,7 @@ jobs:
           r="$(printf "$r" | tail -n +3)"
           r="${r//'%'/'%25'}"
           r="${r//$'\n'/'%0A'}"
-          r="${r//$'\r'/ &&
+          r="${r//$'\r'/'%0D'}"
   build:
     name: Build document
     runs-on: ubuntu-latest
