@@ -122,8 +122,8 @@ jobs:
         id: download
         uses: actions/download-artifact@v4
         with:
-          name: reponse-pdf-release
-          path: reponse-pdf-release
+          name: response-pdf-release
+          path: response-pdf-release
 
       - name: Upload the release
         if: ${{ !env.ACT }}
